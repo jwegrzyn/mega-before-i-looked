@@ -9,6 +9,8 @@ export type DigestRow = {
   runs: number;
   // Lines with status `retry`.
   retries: number;
+  // Lines with status `fail`. A job can fail and still end ok, so lastStatus can't mark it.
+  fails: number;
   lastStatus: RunStatus;
   // The most recent `error` seen for the job, even if its last status is ok. null if none.
   lastError: string | null;

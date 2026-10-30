@@ -130,6 +130,12 @@ describe('readNight on a temp runs dir', () => {
     expect(counts).toEqual({ ok: 1, retry: 0, fail: 1 });
   });
 
+  it('keeps a fail when the job ends ok', () => {
+    write(`${line({ status: 'fail' })}\n${line({})}\n`);
+    const { rows } = found(readNight(dir, NIGHT));
+    expect(rows[0]).toMatchObject({ fails: 1, lastStatus: 'ok' });
+  });
+
   it('does not count blank lines', () => {
     write(`\n${line({})}\n\n   \n`);
     const { rows, badLines } = found(readNight(dir, NIGHT));
